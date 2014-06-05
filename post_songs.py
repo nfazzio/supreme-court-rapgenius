@@ -29,6 +29,8 @@ def main():
                  'albums']
 
 def post_song(song, browser):
+    """ Posts a song to rapgenius through its front end.
+    """
     song = transform_song_dict(song)
     print song
     
@@ -56,41 +58,7 @@ def post_song(song, browser):
                 while browser.is_element_not_present_by_id(key):
                     browser.click_link_by_text("Add Album [ + ]")
             browser.find_by_id(key)[0].fill(value)
-    """
-    #add genre
-    if song['genre']:
-        genre_dict = {'rap':'1',
-                      'rock':'2',
-                      'sports':'3',
-                      'pop':'4',
-                      'news':'5',
-                      'literature':'6',
-                      'screen':'7',
-                      'history':'8',
-                      'misc':'9'}
-        genre_xpath = "id('new_song')/p[1]/label[%s]" % \
-                      genre_dict[song['genre']] 
-        g = browser.find_by_xpath(genre_xpath)
-        g.click()
 
-    #add primary artist
-    if song['primary_artist']:
-       browser.find_by_id('song_primary_artist')[0].fill(song['primary_artist']) 
-
-    #add title
-    if song['title']:
-        browser.find_by_id('song_title')[0].fill(song['title'])
-
-    #release date
-
-    #featured artist
-    if song['featured_artist']:
-        browser.find_by_id('song_featured_artists')[0].fill(song['featured_artist'])
-    #producer
-    #soundcloud
-    #youtube
-    #albums
-    """
 def transform_song_dict(song):
     """ Convert easily readable key names to ids used in RG's html
     """
@@ -136,10 +104,9 @@ def transform_song_dict(song):
             rg_song['song_lyrics'] = value
     return rg_song
 
-def fill_field(key):
-    browser.find_by_id(key)[0].fill(song[key])
-
 def login(browser, name, password):
+    """ Logs a user in to rap genius to post songs.
+    """
     browser.visit('http://rapgenius.com/login')
     browser.find_by_id('user_session_login').fill(name)
     browser.find_by_id('user_session_password').fill(password)
